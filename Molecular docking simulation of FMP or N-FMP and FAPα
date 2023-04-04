@@ -1,0 +1,38 @@
+1.5 Docking Analysis. The X-ray structure of FAPα (PDB code 1Z68) was obtained from the Protein following Data Bank (http://www.rcsb.org/pdb). 3D structures of FMP and N-FMP are obtained and energetically optimized by ChemDraw 3D software. The MolAICal software package is used to process and save FAPα, FMP, and N-FMP in PDBQT molecular format. FAPα is the definition of a crystal ligand in the active pocket of molecular docking. Take x = 39.84 Å, y = 0.221 Å, and z = 59.383 Å as the center coordinate of the FAPα active pocket box, and the size of the grid box is set to 30 Å. The specific operations are as follows: 
+1.5.1 Software requirement 
+1) MolAICal: https://molaical.github.io
+2) UCSF Chimera: https://www.cgl.ucsf.edu/chimera
+1.5.2 Prepare the receptor protein
+The X-ray structure of FAPα (PDB code 1Z68) was obtained from the protein following data bank (http://www.rcsb.org/pdb). Save the file in 1Z68.pdb format.
+1.5.3 Prepare the ligand molecule
+3D structures of FMP and N-FMP are obtained and energetically optimized by ChemDraw 3D software. Use MolAICal software to save FMP and N-FMP in the format of FMP.pdb and N-FMP.pdb.
+1.5.4 Converted the receptor and ligand to PDBQT format
+Use the CD command to switch to the folder where the receptor and ligand are located, and use the following command to get the PDBQT format of the receptor and ligand:
+Receptor: #> MolAICal-xxx\molaical.exe -dock receptor -i 1Z68.pdb
+Ligand: #> MolAICal-xxx\molaical.exe -dock ligand -i FMP (or N-FMP).pdb
+MolAICal-xxx indicates the folder where the MolAICal software is stored.
+1.5.5 Determine box size and center through UCSF Chimera
+Use UCSF Chimera software to open the 1Z68.pdb and FMP (or N-FMP).pdb files. 
+Using UCSF Chimera Software Tools: Tools--> Surface/Binding Analysis--> Autodock Vina 
+In the dialog box, the receptor selects 1Z68.pdb and the ligand selects FMP (or N-FMP).pdb. Fill in "39.840, 0.221, 59.383" at the center coordinates, and fill in 30 for the box size.
+1.5.6 Prepare configuration files
+The final configuration file is set to:
+out = all.pdbqt
+cpu = 4
+receptor = 1Z68.pdbqt
+center_x = 39.840
+center_y = 0.221
+center_z = 59.383
+size_x = 30
+size_y = 30
+size_z = 30
+num_modes = 10
+Save the file as conf.txt
+1.5.7 molecular docking
+MolAICalD from MolAICal package is used for molecular docking of receptor and ligand:
+#> MolAICal-xxx\molaicald --config conf.txt --ligand FMP (or N-FMP).pdbqt
+1.5.8 Result processing
+At the end of the simulation, the results were split into individual molecules:
+#> MolAICal-xxx\molaical.exe -tool pdbqt -i all.pdbqt -o ./
+Individual molecules are named 1.pdbqt, 2.pdbqt, or 3.pdbqt, etc. 
+1.pdbqt, 2.pdbqt or 3.pdbqt can be checked directly through Pymol or UCSF Chimera software.
